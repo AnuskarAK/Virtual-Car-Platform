@@ -1,0 +1,494 @@
+[
+    {
+        "name": "Mustang GT",
+        "brand": "Ford",
+        "year": 2024,
+        "category": "Sports",
+        "image": "/cars/mustang.png",
+        "defaultColor": "#808080",
+        "availableColors": [
+            {
+                "name": "Midnight Black",
+                "hex": "#1a1a2e"
+            },
+            {
+                "name": "Racing Red",
+                "hex": "#e63946"
+            },
+            {
+                "name": "Electric Blue",
+                "hex": "#0077b6"
+            },
+            {
+                "name": "Sunset Orange",
+                "hex": "#f77f00"
+            },
+            {
+                "name": "Pearl White",
+                "hex": "#f1faee"
+            },
+            {
+                "name": "Forest Green",
+                "hex": "#2d6a4f"
+            },
+            {
+                "name": "Royal Purple",
+                "hex": "#7209b7"
+            },
+            {
+                "name": "Gunmetal Gray",
+                "hex": "#6c757d"
+            },
+            {
+                "name": "Candy Apple",
+                "hex": "#d90429"
+            },
+            {
+                "name": "Neon Yellow",
+                "hex": "#ccff00"
+            }
+        ],
+        "availableWheels": [
+            {
+                "name": "Stock",
+                "image": "stock"
+            },
+            {
+                "name": "Sport Alloy",
+                "image": "sport-alloy"
+            },
+            {
+                "name": "Racing Mesh",
+                "image": "racing-mesh"
+            },
+            {
+                "name": "Chrome Classic",
+                "image": "chrome-classic"
+            },
+            {
+                "name": "Matte Black",
+                "image": "matte-black"
+            }
+        ],
+        "availableSpoilers": [
+            {
+                "name": "None",
+                "image": "none"
+            },
+            {
+                "name": "Lip Spoiler",
+                "image": "lip"
+            },
+            {
+                "name": "GT Wing",
+                "image": "gt-wing"
+            },
+            {
+                "name": "Ducktail",
+                "image": "ducktail"
+            }
+        ],
+        "availableBodyKits": [
+            {
+                "name": "Stock",
+                "image": "stock"
+            },
+            {
+                "name": "Widebody",
+                "image": "widebody"
+            },
+            {
+                "name": "Aero Kit",
+                "image": "aero"
+            }
+        ]
+    },
+    {
+        "name": "Civic Type R",
+        "brand": "Honda",
+        "year": 2024,
+        "category": "Sports",
+        "image": "/cars/civic.png",
+        "defaultColor": "#808080",
+        "availableColors": [
+            {
+                "name": "Championship White",
+                "hex": "#f8f9fa"
+            },
+            {
+                "name": "Rallye Red",
+                "hex": "#dc2626"
+            },
+            {
+                "name": "Aegean Blue",
+                "hex": "#1d4ed8"
+            },
+            {
+                "name": "Boost Blue",
+                "hex": "#06b6d4"
+            },
+            {
+                "name": "Crystal Black",
+                "hex": "#171717"
+            },
+            {
+                "name": "Sonic Gray",
+                "hex": "#9ca3af"
+            },
+            {
+                "name": "Phoenix Yellow",
+                "hex": "#eab308"
+            },
+            {
+                "name": "Emerald Green",
+                "hex": "#059669"
+            },
+            {
+                "name": "Twilight Purple",
+                "hex": "#7c3aed"
+            },
+            {
+                "name": "Flame Orange",
+                "hex": "#ea580c"
+            }
+        ],
+        "availableWheels": [
+            {
+                "name": "Stock",
+                "image": "stock"
+            },
+            {
+                "name": "Sport Alloy",
+                "image": "sport-alloy"
+            },
+            {
+                "name": "Racing Mesh",
+                "image": "racing-mesh"
+            },
+            {
+                "name": "Chrome Classic",
+                "image": "chrome-classic"
+            },
+            {
+                "name": "Matte Black",
+                "image": "matte-black"
+            }
+        ],
+        "availableSpoilers": [
+            {
+                "name": "None",
+                "image": "none"
+            },
+            {
+                "name": "Lip Spoiler",
+                "image": "lip"
+            },
+            {
+                "name": "GT Wing",
+                "image": "gt-wing"
+            },
+            {
+                "name": "Ducktail",
+                "image": "ducktail"
+            }
+        ],
+        "availableBodyKits": [
+            {
+                "name": "Stock",
+                "image": "stock"
+            },
+            {
+                "name": "Widebody",
+                "image": "widebody"
+            },
+            {
+                "name": "Aero Kit",
+                "image": "aero"
+            }
+        ]
+    },
+    {
+        "name": "Model S",
+        "brand": "Tesla",
+        "year": 2024,
+        "category": "Sedan",
+        "image": "/cars/tesla.png",
+        "defaultColor": "#808080",
+        "availableColors": [
+            {
+                "name": "Pearl White",
+                "hex": "#f1faee"
+            },
+            {
+                "name": "Solid Black",
+                "hex": "#0d1117"
+            },
+            {
+                "name": "Midnight Silver",
+                "hex": "#4b5563"
+            },
+            {
+                "name": "Deep Blue",
+                "hex": "#1e40af"
+            },
+            {
+                "name": "Ultra Red",
+                "hex": "#ef4444"
+            },
+            {
+                "name": "Quicksilver",
+                "hex": "#94a3b8"
+            },
+            {
+                "name": "Midnight Cherry",
+                "hex": "#881337"
+            },
+            {
+                "name": "Glacier White",
+                "hex": "#e2e8f0"
+            },
+            {
+                "name": "Storm Gray",
+                "hex": "#374151"
+            },
+            {
+                "name": "Ocean Teal",
+                "hex": "#0d9488"
+            }
+        ],
+        "availableWheels": [
+            {
+                "name": "Stock",
+                "image": "stock"
+            },
+            {
+                "name": "Sport Alloy",
+                "image": "sport-alloy"
+            },
+            {
+                "name": "Racing Mesh",
+                "image": "racing-mesh"
+            },
+            {
+                "name": "Chrome Classic",
+                "image": "chrome-classic"
+            },
+            {
+                "name": "Matte Black",
+                "image": "matte-black"
+            }
+        ],
+        "availableSpoilers": [
+            {
+                "name": "None",
+                "image": "none"
+            },
+            {
+                "name": "Lip Spoiler",
+                "image": "lip"
+            },
+            {
+                "name": "Ducktail",
+                "image": "ducktail"
+            }
+        ],
+        "availableBodyKits": [
+            {
+                "name": "Stock",
+                "image": "stock"
+            },
+            {
+                "name": "Aero Kit",
+                "image": "aero"
+            }
+        ]
+    },
+    {
+        "name": "Wrangler Rubicon",
+        "brand": "Jeep",
+        "year": 2024,
+        "category": "SUV",
+        "image": "/cars/wrangler.png",
+        "defaultColor": "#808080",
+        "availableColors": [
+            {
+                "name": "Sarge Green",
+                "hex": "#4d7c0f"
+            },
+            {
+                "name": "Firecracker Red",
+                "hex": "#dc2626"
+            },
+            {
+                "name": "Black",
+                "hex": "#171717"
+            },
+            {
+                "name": "Bright White",
+                "hex": "#fafafa"
+            },
+            {
+                "name": "Hydro Blue",
+                "hex": "#0ea5e9"
+            },
+            {
+                "name": "Sting Gray",
+                "hex": "#78716c"
+            },
+            {
+                "name": "Tuscadero Pink",
+                "hex": "#db2777"
+            },
+            {
+                "name": "High Velocity",
+                "hex": "#facc15"
+            },
+            {
+                "name": "Gecko Green",
+                "hex": "#65a30d"
+            },
+            {
+                "name": "Anvil Gray",
+                "hex": "#57534e"
+            }
+        ],
+        "availableWheels": [
+            {
+                "name": "Stock",
+                "image": "stock"
+            },
+            {
+                "name": "Sport Alloy",
+                "image": "sport-alloy"
+            },
+            {
+                "name": "Chrome Classic",
+                "image": "chrome-classic"
+            },
+            {
+                "name": "Matte Black",
+                "image": "matte-black"
+            }
+        ],
+        "availableSpoilers": [
+            {
+                "name": "None",
+                "image": "none"
+            }
+        ],
+        "availableBodyKits": [
+            {
+                "name": "Stock",
+                "image": "stock"
+            },
+            {
+                "name": "Off-Road Kit",
+                "image": "offroad"
+            }
+        ]
+    },
+    {
+        "name": "911 Carrera",
+        "brand": "Porsche",
+        "year": 2024,
+        "category": "Coupe",
+        "image": "/cars/porsche.png",
+        "defaultColor": "#808080",
+        "availableColors": [
+            {
+                "name": "Guards Red",
+                "hex": "#dc2626"
+            },
+            {
+                "name": "Racing Yellow",
+                "hex": "#fbbf24"
+            },
+            {
+                "name": "GT Silver",
+                "hex": "#d1d5db"
+            },
+            {
+                "name": "Gentian Blue",
+                "hex": "#1e3a5f"
+            },
+            {
+                "name": "Jet Black",
+                "hex": "#0a0a0a"
+            },
+            {
+                "name": "Miami Blue",
+                "hex": "#22d3ee"
+            },
+            {
+                "name": "Lava Orange",
+                "hex": "#ea580c"
+            },
+            {
+                "name": "Chalk",
+                "hex": "#e7e5e4"
+            },
+            {
+                "name": "Python Green",
+                "hex": "#16a34a"
+            },
+            {
+                "name": "Frozen Berry",
+                "hex": "#a21caf"
+            }
+        ],
+        "availableWheels": [
+            {
+                "name": "Stock",
+                "image": "stock"
+            },
+            {
+                "name": "Sport Alloy",
+                "image": "sport-alloy"
+            },
+            {
+                "name": "Racing Mesh",
+                "image": "racing-mesh"
+            },
+            {
+                "name": "Chrome Classic",
+                "image": "chrome-classic"
+            },
+            {
+                "name": "Matte Black",
+                "image": "matte-black"
+            }
+        ],
+        "availableSpoilers": [
+            {
+                "name": "None",
+                "image": "none"
+            },
+            {
+                "name": "Lip Spoiler",
+                "image": "lip"
+            },
+            {
+                "name": "GT Wing",
+                "image": "gt-wing"
+            },
+            {
+                "name": "Ducktail",
+                "image": "ducktail"
+            }
+        ],
+        "availableBodyKits": [
+            {
+                "name": "Stock",
+                "image": "stock"
+            },
+            {
+                "name": "Widebody",
+                "image": "widebody"
+            },
+            {
+                "name": "Aero Kit",
+                "image": "aero"
+            }
+        ]
+    }
+]

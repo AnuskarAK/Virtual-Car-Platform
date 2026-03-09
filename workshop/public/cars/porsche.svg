@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 350">
+  <!-- Porsche 911 Carrera -->
+  <defs>
+    <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#999;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#666;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="windowGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:0.6" />
+      <stop offset="100%" style="stop-color:#4682B4;stop-opacity:0.8" />
+    </linearGradient>
+  </defs>
+  <ellipse cx="400" cy="310" rx="320" ry="14" fill="rgba(0,0,0,0.15)"/>
+  <!-- Body - 911 iconic shape with sloped rear -->
+  <path class="car-body" d="M105,250 L105,218 C105,208 115,195 130,188 L180,175 C190,170 210,155 230,140 L260,125 C275,118 290,130 310,138 L370,155 C390,160 420,148 460,125 L520,100 C545,92 580,90 610,92 L660,98 C685,105 705,120 718,138 L740,168 C750,175 755,185 755,195 L755,250 C755,265 745,270 735,270 L640,270 L575,270 C570,270 565,265 565,260 L565,255 C565,220 540,195 505,195 C470,195 445,220 445,255 L445,260 C445,265 440,270 435,270 L285,270 C280,270 275,265 275,260 L275,255 C275,220 250,195 215,195 C180,195 155,220 155,255 L155,260 C155,265 150,270 145,270 L122,270 C112,270 105,260 105,250 Z" fill="url(#bodyGrad)" stroke="#555" stroke-width="1.5"/>
+  <!-- Roof - 911 distinctive slope -->
+  <path d="M300,155 L460,125 L525,100 C540,95 570,93 600,93 L620,95 C640,100 650,110 655,125 L665,155 C668,165 660,172 650,172 L310,172 C300,172 295,165 300,155 Z" fill="url(#windowGrad)" stroke="#555" stroke-width="1"/>
+  <!-- Window divider -->
+  <line x1="530" y1="98" x2="525" y2="172" stroke="#555" stroke-width="2"/>
+  <!-- Rear quarter window -->
+  <path d="M300,155 L310,138 L350,155 L340,172 L310,172 Z" fill="url(#windowGrad)" stroke="#555" stroke-width="0.8" opacity="0.8"/>
+  <!-- Headlight - distinctive Porsche -->
+  <path d="M745,180 L758,185 L758,210 L745,215 Z" fill="#FFE066" stroke="#555" stroke-width="1" opacity="0.9"/>
+  <ellipse cx="752" cy="198" rx="4" ry="12" fill="#FFF8DC" opacity="0.8"/>
+  <!-- Taillight -->
+  <path d="M105,210 L120,205 L120,238 L105,238 Z" fill="#FF4444" stroke="#555" stroke-width="1" opacity="0.9"/>
+  <!-- Connecting light bar -->
+  <rect x="105" y="213" width="60" height="3" fill="#FF4444" opacity="0.6"/>
+  <!-- Door handle -->
+  <rect x="420" y="148" width="28" height="4" rx="2" fill="#888" stroke="#555" stroke-width="0.5"/>
+  <!-- Side line -->
+  <path d="M130,195 L745,195" stroke="#777" stroke-width="1" fill="none" opacity="0.4"/>
+  <!-- Front bumper -->
+  <path d="M745,215 L760,218 L760,255 L748,260 L742,255 Z" fill="#444" stroke="#555" stroke-width="1"/>
+  <!-- Rear bumper -->
+  <path d="M105,230 L95,233 L95,255 L110,260 L115,255 Z" fill="#444" stroke="#555" stroke-width="1"/>
+  <!-- Rear engine air intake -->
+  <rect x="140" y="175" width="40" height="8" rx="2" fill="#333" stroke="#555" stroke-width="0.5"/>
+  <!-- Wheels -->
+  <g class="wheel-rear">
+    <circle cx="215" cy="260" r="42" fill="#222"/>
+    <circle cx="215" cy="260" r="35" fill="#333" stroke="#444" stroke-width="2"/>
+    <circle cx="215" cy="260" r="18" fill="#555"/>
+    <circle cx="215" cy="260" r="8" fill="#777"/>
+    <line x1="215" y1="225" x2="215" y2="240" stroke="#666" stroke-width="3"/>
+    <line x1="215" y1="280" x2="215" y2="295" stroke="#666" stroke-width="3"/>
+    <line x1="180" y1="260" x2="195" y2="260" stroke="#666" stroke-width="3"/>
+    <line x1="235" y1="260" x2="250" y2="260" stroke="#666" stroke-width="3"/>
+    <line x1="190" y1="235" x2="201" y2="246" stroke="#666" stroke-width="3"/>
+    <line x1="229" y1="274" x2="240" y2="285" stroke="#666" stroke-width="3"/>
+  </g>
+  <g class="wheel-front">
+    <circle cx="505" cy="260" r="42" fill="#222"/>
+    <circle cx="505" cy="260" r="35" fill="#333" stroke="#444" stroke-width="2"/>
+    <circle cx="505" cy="260" r="18" fill="#555"/>
+    <circle cx="505" cy="260" r="8" fill="#777"/>
+    <line x1="505" y1="225" x2="505" y2="240" stroke="#666" stroke-width="3"/>
+    <line x1="505" y1="280" x2="505" y2="295" stroke="#666" stroke-width="3"/>
+    <line x1="470" y1="260" x2="485" y2="260" stroke="#666" stroke-width="3"/>
+    <line x1="525" y1="260" x2="540" y2="260" stroke="#666" stroke-width="3"/>
+    <line x1="480" y1="235" x2="491" y2="246" stroke="#666" stroke-width="3"/>
+    <line x1="519" y1="274" x2="530" y2="285" stroke="#666" stroke-width="3"/>
+  </g>
+  <!-- Side mirror -->
+  <ellipse cx="668" cy="152" rx="11" ry="7" fill="#888" stroke="#555" stroke-width="1"/>
+</svg>

@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 350">
+  <!-- Tesla Model S -->
+  <defs>
+    <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#999;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#666;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="windowGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:0.6" />
+      <stop offset="100%" style="stop-color:#4682B4;stop-opacity:0.8" />
+    </linearGradient>
+  </defs>
+  <ellipse cx="400" cy="310" rx="330" ry="15" fill="rgba(0,0,0,0.15)"/>
+  <!-- Body - Sleek sedan -->
+  <path class="car-body" d="M100,250 L100,218 C100,208 110,198 125,192 L200,178 C218,172 245,142 290,120 L380,100 C405,95 460,93 510,95 L590,100 C615,105 640,118 658,132 L695,168 C715,175 735,185 745,195 L750,200 C755,207 755,222 755,232 L755,250 C755,265 745,270 735,270 L640,270 L575,270 C570,270 565,265 565,260 L565,255 C565,218 538,192 502,192 C466,192 440,218 440,255 L440,260 C440,265 435,270 430,270 L280,270 C275,270 270,265 270,260 L270,255 C270,218 243,192 207,192 C171,192 145,218 145,255 L145,260 C145,265 140,270 135,270 L118,270 C108,270 100,260 100,250 Z" fill="url(#bodyGrad)" stroke="#555" stroke-width="1.5"/>
+  <!-- Roof -->
+  <path d="M275,178 L325,115 C340,100 365,94 395,94 L520,92 C548,92 570,100 585,115 L628,155 C635,165 628,178 618,178 Z" fill="url(#windowGrad)" stroke="#555" stroke-width="1"/>
+  <line x1="475" y1="93" x2="470" y2="178" stroke="#555" stroke-width="2"/>
+  <line x1="365" y1="96" x2="358" y2="178" stroke="#555" stroke-width="2"/>
+  <!-- Headlight - sleek LED style -->
+  <path d="M740,192 L755,198 L755,222 L740,225 Z" fill="#E8E8FF" stroke="#555" stroke-width="1" opacity="0.9"/>
+  <path d="M742,198 L752,200 L752,218 L742,220 Z" fill="#DDEEFF" opacity="0.9"/>
+  <!-- Taillight - LED bar -->
+  <path d="M100,208 L118,203 L118,238 L100,238 Z" fill="#FF3333" stroke="#555" stroke-width="1" opacity="0.9"/>
+  <!-- Door handle - flush -->
+  <rect x="380" y="158" width="35" height="4" rx="2" fill="#999" opacity="0.6"/>
+  <!-- Side character line -->
+  <path d="M125,198 L740,198" stroke="#777" stroke-width="1" fill="none" opacity="0.4"/>
+  <!-- Front bumper -->
+  <path d="M740,225 L758,228 L758,258 L743,262 L738,258 Z" fill="#444" stroke="#555" stroke-width="1"/>
+  <!-- Rear bumper -->
+  <path d="M100,228 L90,232 L90,258 L108,262 L112,258 Z" fill="#444" stroke="#555" stroke-width="1"/>
+  <!-- Wheels -->
+  <g class="wheel-rear">
+    <circle cx="207" cy="260" r="42" fill="#222"/>
+    <circle cx="207" cy="260" r="36" fill="#2a2a2a" stroke="#444" stroke-width="2"/>
+    <circle cx="207" cy="260" r="18" fill="#555"/>
+    <circle cx="207" cy="260" r="8" fill="#777"/>
+    <line x1="207" y1="224" x2="207" y2="240" stroke="#666" stroke-width="3"/>
+    <line x1="207" y1="280" x2="207" y2="296" stroke="#666" stroke-width="3"/>
+    <line x1="171" y1="260" x2="187" y2="260" stroke="#666" stroke-width="3"/>
+    <line x1="227" y1="260" x2="243" y2="260" stroke="#666" stroke-width="3"/>
+    <line x1="182" y1="235" x2="193" y2="246" stroke="#666" stroke-width="3"/>
+    <line x1="221" y1="274" x2="232" y2="285" stroke="#666" stroke-width="3"/>
+  </g>
+  <g class="wheel-front">
+    <circle cx="502" cy="260" r="42" fill="#222"/>
+    <circle cx="502" cy="260" r="36" fill="#2a2a2a" stroke="#444" stroke-width="2"/>
+    <circle cx="502" cy="260" r="18" fill="#555"/>
+    <circle cx="502" cy="260" r="8" fill="#777"/>
+    <line x1="502" y1="224" x2="502" y2="240" stroke="#666" stroke-width="3"/>
+    <line x1="502" y1="280" x2="502" y2="296" stroke="#666" stroke-width="3"/>
+    <line x1="466" y1="260" x2="482" y2="260" stroke="#666" stroke-width="3"/>
+    <line x1="522" y1="260" x2="538" y2="260" stroke="#666" stroke-width="3"/>
+    <line x1="477" y1="235" x2="488" y2="246" stroke="#666" stroke-width="3"/>
+    <line x1="516" y1="274" x2="527" y2="285" stroke="#666" stroke-width="3"/>
+  </g>
+  <!-- Side mirror -->
+  <ellipse cx="640" cy="162" rx="12" ry="7" fill="#888" stroke="#555" stroke-width="1"/>
+</svg>

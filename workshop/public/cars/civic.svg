@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 350">
+  <!-- Honda Civic Type R -->
+  <defs>
+    <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#999;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#666;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="windowGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:0.6" />
+      <stop offset="100%" style="stop-color:#4682B4;stop-opacity:0.8" />
+    </linearGradient>
+  </defs>
+  <ellipse cx="400" cy="310" rx="320" ry="15" fill="rgba(0,0,0,0.15)"/>
+  <!-- Body - Hatchback shape -->
+  <path class="car-body" d="M110,250 L110,215 C110,205 120,195 135,190 L200,175 C215,170 240,140 280,120 L360,100 C385,95 430,93 470,95 L550,100 C575,105 600,115 620,130 L660,165 C680,170 700,180 715,190 L725,200 C730,205 730,220 730,230 L730,250 C730,265 720,270 710,270 L630,270 L570,270 C565,270 560,265 560,260 L560,255 C560,220 535,195 500,195 C465,195 440,220 440,255 L440,260 C440,265 435,270 430,270 L280,270 C275,270 270,265 270,260 L270,255 C270,220 245,195 210,195 C175,195 150,220 150,255 L150,260 C150,265 145,270 140,270 L125,270 C115,270 110,260 110,250 Z" fill="url(#bodyGrad)" stroke="#555" stroke-width="1.5"/>
+  <!-- Roof - Hatch style -->
+  <path d="M270,175 L310,118 C325,103 345,96 370,96 L480,93 C510,93 530,100 545,112 L585,148 L595,168 C595,175 590,178 580,178 L275,178 Z" fill="url(#windowGrad)" stroke="#555" stroke-width="1"/>
+  <!-- Rear window (hatch) -->
+  <path d="M270,178 L285,178 L310,118 L280,120 L260,140 Z" fill="url(#windowGrad)" stroke="#555" stroke-width="0.8" opacity="0.9"/>
+  <!-- Window dividers -->
+  <line x1="430" y1="95" x2="425" y2="178" stroke="#555" stroke-width="2"/>
+  <line x1="340" y1="100" x2="340" y2="178" stroke="#555" stroke-width="2"/>
+  <!-- Headlight -->
+  <path d="M715,190 L730,195 L730,225 L715,228 Z" fill="#FFE066" stroke="#555" stroke-width="1" opacity="0.9"/>
+  <ellipse cx="724" cy="210" rx="5" ry="14" fill="#FFF8DC" opacity="0.8"/>
+  <!-- Taillight -->
+  <path d="M110,210 L125,205 L125,240 L110,240 Z" fill="#FF4444" stroke="#555" stroke-width="1" opacity="0.9"/>
+  <!-- Door handle -->
+  <rect x="370" y="155" width="28" height="5" rx="2" fill="#888" stroke="#555" stroke-width="0.5"/>
+  <!-- Side line -->
+  <path d="M135,195 L715,195" stroke="#777" stroke-width="1" fill="none" opacity="0.5"/>
+  <!-- Front bumper -->
+  <path d="M715,228 L735,230 L735,258 L720,262 L715,258 Z" fill="#444" stroke="#555" stroke-width="1"/>
+  <!-- Rear bumper -->
+  <path d="M110,230 L100,233 L100,258 L115,262 L120,258 Z" fill="#444" stroke="#555" stroke-width="1"/>
+  <!-- Wheels -->
+  <g class="wheel-rear">
+    <circle cx="210" cy="260" r="42" fill="#222"/>
+    <circle cx="210" cy="260" r="35" fill="#333" stroke="#444" stroke-width="2"/>
+    <circle cx="210" cy="260" r="18" fill="#555"/>
+    <circle cx="210" cy="260" r="8" fill="#777"/>
+    <line x1="210" y1="225" x2="210" y2="240" stroke="#666" stroke-width="3"/>
+    <line x1="210" y1="280" x2="210" y2="295" stroke="#666" stroke-width="3"/>
+    <line x1="175" y1="260" x2="190" y2="260" stroke="#666" stroke-width="3"/>
+    <line x1="230" y1="260" x2="245" y2="260" stroke="#666" stroke-width="3"/>
+    <line x1="185" y1="235" x2="196" y2="246" stroke="#666" stroke-width="3"/>
+    <line x1="224" y1="274" x2="235" y2="285" stroke="#666" stroke-width="3"/>
+  </g>
+  <g class="wheel-front">
+    <circle cx="500" cy="260" r="42" fill="#222"/>
+    <circle cx="500" cy="260" r="35" fill="#333" stroke="#444" stroke-width="2"/>
+    <circle cx="500" cy="260" r="18" fill="#555"/>
+    <circle cx="500" cy="260" r="8" fill="#777"/>
+    <line x1="500" y1="225" x2="500" y2="240" stroke="#666" stroke-width="3"/>
+    <line x1="500" y1="280" x2="500" y2="295" stroke="#666" stroke-width="3"/>
+    <line x1="465" y1="260" x2="480" y2="260" stroke="#666" stroke-width="3"/>
+    <line x1="520" y1="260" x2="535" y2="260" stroke="#666" stroke-width="3"/>
+    <line x1="475" y1="235" x2="486" y2="246" stroke="#666" stroke-width="3"/>
+    <line x1="514" y1="274" x2="525" y2="285" stroke="#666" stroke-width="3"/>
+  </g>
+  <!-- Side mirror -->
+  <ellipse cx="605" cy="160" rx="12" ry="8" fill="#888" stroke="#555" stroke-width="1"/>
+  <!-- Type R wing hint -->
+  <path d="M115,195 L105,185 L100,188 L110,198 Z" fill="#666" stroke="#555" stroke-width="0.5"/>
+</svg>

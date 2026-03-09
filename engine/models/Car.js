@@ -1,0 +1,47 @@
+const mongoose = require('mongoose');
+
+const carSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+    },
+    brand: {
+        type: String,
+        required: true,
+    },
+    year: {
+        type: Number,
+        required: true,
+    },
+    category: {
+        type: String,
+        enum: ['Sports', 'Sedan', 'SUV', 'Truck', 'Coupe'],
+        required: true,
+    },
+    image: {
+        type: String,
+        required: true,
+    },
+    defaultColor: {
+        type: String,
+        default: '#808080',
+    },
+    availableColors: [{
+        name: String,
+        hex: String,
+    }],
+    availableWheels: [{
+        name: String,
+        image: String,
+    }],
+    availableSpoilers: [{
+        name: String,
+        image: String,
+    }],
+    availableBodyKits: [{
+        name: String,
+        image: String,
+    }],
+});
+
+module.exports = mongoose.model('Car', carSchema);
