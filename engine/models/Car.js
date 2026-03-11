@@ -26,6 +26,22 @@ const carSchema = new mongoose.Schema({
         type: String,
         default: '#808080',
     },
+    basePrice: {
+        type: Number,
+        default: 30000,
+    },
+    baseHorsepower: {
+        type: Number,
+        default: 300,
+    },
+    baseAcceleration: {
+        type: Number,
+        default: 4.5,
+    },
+    baseTopSpeed: {
+        type: Number,
+        default: 155,
+    },
     availableColors: [{
         name: String,
         hex: String,

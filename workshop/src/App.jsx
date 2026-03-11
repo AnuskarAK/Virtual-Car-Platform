@@ -9,6 +9,8 @@ import Register from './pages/Register';
 import CarSelect from './pages/CarSelect';
 import Customize from './pages/Customize';
 import Dashboard from './pages/Dashboard';
+import ViewBuild from './pages/ViewBuild';
+import Community from './pages/Community';
 
 function App() {
   return (
@@ -22,7 +24,9 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/cars" element={<CarSelect />} />
+              <Route path="/community" element={<Community />} />
               <Route path="/customize/:id" element={<Customize />} />
+              <Route path="/build/:id" element={<ViewBuild />} />
               <Route path="/dashboard" element={
                 <ProtectedRoute>
                   <Dashboard />

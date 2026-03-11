@@ -25,8 +25,14 @@ export const getCarById = (id) => API.get(`/cars/${id}`);
 // Builds
 export const saveNewBuild = (data) => API.post('/builds', data);
 export const getBuilds = () => API.get('/builds');
+export const getPublicBuilds = () => API.get('/builds/public');
 export const getBuildById = (id) => API.get(`/builds/${id}`);
 export const updateBuild = (id, data) => API.put(`/builds/${id}`, data);
 export const deleteBuild = (id) => API.delete(`/builds/${id}`);
+export const likeBuild = (id) => API.post(`/builds/${id}/like`);
+export const commentBuild = (id, text) => API.post(`/builds/${id}/comment`, { text });
+
+// AI
+export const getAiSuggestions = (data) => API.post('/ai/suggest', data);
 
 export default API;

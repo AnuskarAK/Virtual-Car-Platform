@@ -2,11 +2,14 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { getCarById, saveNewBuild } from '../services/api';
-import CarPreview from '../components/CarPreview';
+import ThreeDViewer from '../components/ThreeDViewer';
 import ColorPicker from '../components/ColorPicker';
 import PartSelector from '../components/PartSelector';
 import ComparisonView from '../components/ComparisonView';
-import { IoColorPaletteOutline, IoSettingsOutline, IoSaveOutline, IoRefreshOutline, IoGitCompareOutline } from 'react-icons/io5';
+import CostCalculator from '../components/CostCalculator';
+import PerformanceStats from '../components/PerformanceStats';
+import AIAssistant from '../components/AIAssistant';
+import { IoColorPaletteOutline, IoSettingsOutline, IoSaveOutline, IoRefreshOutline, IoGitCompareOutline, IoDownloadOutline } from 'react-icons/io5';
 import { FiChevronLeft } from 'react-icons/fi';
 import { GiCarWheel, GiSpeedometer } from 'react-icons/gi';
 
@@ -22,6 +25,7 @@ const Customize = () => {
     const [buildName, setBuildName] = useState('');
     const [saving, setSaving] = useState(false);
     const [saveSuccess, setSaveSuccess] = useState(false);
+    const [isPublic, setIsPublic] = useState(false);
 
     const [mods, setMods] = useState({
         paintColor: '#808080',
@@ -56,6 +60,10 @@ const Customize = () => {
         }
     };
 
+    const handleApplyAISuggestions = (suggestedMods) => {
+        setMods(prevMods => ({ ...prevMods, ...suggestedMods }));
+    };
+
     const handleSave = async () => {
         if (!user) {
             navigate('/login');
@@ -65,21 +73,41 @@ const Customize = () => {
 
         setSaving(true);
         try {
+            // Compute current cost and performance for saving into backend
+            const { calculateTotalCost, calculatePerformance } = await import('../data/modifiers');
+            const totalCost = calculateTotalCost(car?.basePrice || 30000, mods);
+            const performance = calculatePerformance(car?.baseHorsepower, car?.baseAcceleration, car?.baseTopSpeed, mods);
+
             await saveNewBuild({
                 car: id,
                 name: buildName,
                 modifications: mods,
+                totalCost,
+                performance,
+                isPublic,
             });
             setSaveSuccess(true);
             setTimeout(() => {
                 setShowSaveModal(false);
                 setSaveSuccess(false);
                 setBuildName('');
+                setIsPublic(false);
             }, 1500);
         } catch (error) {
             console.error('Error saving build:', error);
         }
         setSaving(false);
+    };
+
+    const handleDownloadImage = () => {
+        const canvas = document.querySelector('canvas');
+        if (canvas) {
+            const dataUrl = canvas.toDataURL('image/png');
+            const link = document.createElement('a');
+            link.download = `${car?.name.replace(/\s+/g, '_')}_custom.png`;
+            link.href = dataUrl;
+            link.click();
+        }
     };
 
     const tabs = [
@@ -211,9 +239,9 @@ const Customize = () => {
                     <div className="lg:col-span-8 xl:col-span-9 order-1 lg:order-2">
                         {/* Preview area */}
                         <div className="bg-dark-800 border border-white/[0.06] rounded-2xl p-6 lg:p-8">
-                            <div className="flex items-center justify-center min-h-[280px] sm:min-h-[360px] lg:min-h-[420px]">
-                                <CarPreview
-                                    carImage={car.image}
+                            <div className="flex items-center justify-center min-h-[300px] sm:min-h-[400px] lg:min-h-[460px] relative">
+                                <ThreeDViewer
+                                    modelUrl={car.modelUrl || null}
                                     paintColor={mods.paintColor}
                                     wheelType={mods.wheels}
                                     spoilerType={mods.spoiler}
@@ -234,6 +262,12 @@ const Customize = () => {
                                     className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm text-gray-400 bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.08] hover:text-white transition-all"
                                 >
                                     <IoGitCompareOutline size={15} /> Compare
+                                </button>
+                                <button
+                                    onClick={handleDownloadImage}
+                                    className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm text-gray-400 bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.08] hover:text-white transition-all"
+                                >
+                                    <IoDownloadOutline size={15} /> Save Image
                                 </button>
                                 <button
                                     onClick={() => user ? setShowSaveModal(true) : navigate('/login')}
@@ -268,6 +302,22 @@ const Customize = () => {
                                     <p className="text-[11px] text-gray-300 capitalize">{mods.bodyKit.replace(/-/g, ' ')}</p>
                                 </div>
                             </div>
+                        </div>
+
+                        {/* Cost & Performance Grid */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                            <CostCalculator basePrice={car?.basePrice || 30000} mods={mods} />
+                            <PerformanceStats 
+                                baseHp={car?.baseHorsepower || 300} 
+                                baseAccel={car?.baseAcceleration || 4.5} 
+                                baseSpeed={car?.baseTopSpeed || 155} 
+                                mods={mods} 
+                            />
+                        </div>
+                        
+                        {/* AI Assistant */}
+                        <div className="mt-4">
+                            <AIAssistant onApplySuggestions={handleApplyAISuggestions} />
                         </div>
                     </div>
                 </div>
@@ -310,6 +360,18 @@ const Customize = () => {
                                     autoFocus
                                     id="build-name-input"
                                 />
+                                <div className="flex items-center gap-3 mb-6 bg-dark-900 border border-white/[0.04] p-3 rounded-xl">
+                                    <input 
+                                        type="checkbox" 
+                                        id="public-toggle" 
+                                        checked={isPublic} 
+                                        onChange={(e) => setIsPublic(e.target.checked)} 
+                                        className="w-4 h-4 rounded text-accent-cyan border-white/[0.2] bg-dark-700 focus:ring-accent-cyan focus:ring-offset-dark-800"
+                                    />
+                                    <label htmlFor="public-toggle" className="text-sm text-gray-400 cursor-pointer select-none">
+                                        Make this build public (Community can view and vote)
+                                    </label>
+                                </div>
                                 <div className="flex gap-3">
                                     <button
                                         onClick={() => setShowSaveModal(false)}

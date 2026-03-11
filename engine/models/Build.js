@@ -42,6 +42,28 @@ const buildSchema = new mongoose.Schema({
             default: 'stock',
         },
     },
+    totalCost: {
+        type: Number,
+        default: 0,
+    },
+    performance: {
+        horsepower: { type: Number, default: 0 },
+        acceleration: { type: Number, default: 0 },
+        topSpeed: { type: Number, default: 0 },
+    },
+    isPublic: {
+        type: Boolean,
+        default: false,
+    },
+    likes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+    }],
+    comments: [{
+        user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+        text: String,
+        date: { type: Date, default: Date.now },
+    }],
     createdAt: {
         type: Date,
         default: Date.now,

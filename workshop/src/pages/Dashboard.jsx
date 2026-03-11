@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { getBuilds, deleteBuild } from '../services/api';
-import { FiEdit2, FiTrash2, FiPlus } from 'react-icons/fi';
+import { FiEdit2, FiTrash2, FiPlus, FiShare2, FiGlobe, FiLock } from 'react-icons/fi';
 import { IoCarSportOutline } from 'react-icons/io5';
 
 const Dashboard = () => {
@@ -43,6 +43,13 @@ const Dashboard = () => {
             </div>
         );
     }
+
+    const handleShare = (buildId) => {
+        const url = `${window.location.origin}/build/${buildId}`;
+        navigator.clipboard.writeText(url);
+        // Could add a toast notification here
+        alert('Build link copied to clipboard!');
+    };
 
     return (
         <div className="min-h-screen pt-24 pb-16">
@@ -90,11 +97,29 @@ const Dashboard = () => {
                                 {/* Info */}
                                 <div className="p-5">
                                     <div className="flex items-center justify-between mb-2">
-                                        <h3 className="font-heading text-sm font-semibold text-white">{build.name}</h3>
+                                        <div className="flex items-center gap-2">
+                                            <h3 className="font-heading text-sm font-semibold text-white truncate max-w-[120px] sm:max-w-[160px]">{build.name}</h3>
+                                            {build.isPublic ? 
+                                                <FiGlobe className="text-gray-500" size={12} title="Public Build" /> : 
+                                                <FiLock className="text-gray-600" size={12} title="Private Build" />
+                                            }
+                                        </div>
+                                        {build.totalCost > 0 && (
+                                            <span className="text-xs font-mono text-accent-cyan">${build.totalCost.toLocaleString()}</span>
+                                        )}
                                     </div>
-                                    <p className="text-xs text-gray-500 mb-4">
+                                    <p className="text-xs text-gray-500 mb-3">
                                         {build.car?.brand} {build.car?.name}
                                     </p>
+
+                                    {/* Perf quick summary */}
+                                    {build.performance && build.performance.horsepower > 0 && (
+                                        <div className="flex gap-3 mb-3 text-[10px] text-gray-400">
+                                            <span><strong className="text-white">{build.performance.horsepower}</strong> HP</span>
+                                            <span><strong className="text-white">{build.performance.acceleration}</strong>s 0-60</span>
+                                            <span><strong className="text-white">{build.performance.topSpeed}</strong> mph</span>
+                                        </div>
+                                    )}
 
                                     {/* Mods summary */}
                                     <div className="flex flex-wrap gap-1.5 mb-4">
@@ -122,6 +147,13 @@ const Dashboard = () => {
                                             className="flex-1 btn-secondary !py-2 text-xs flex items-center justify-center gap-1.5"
                                         >
                                             <FiEdit2 size={12} /> Edit
+                                        </button>
+                                        <button
+                                            onClick={() => handleShare(build._id)}
+                                            className="glass !border-accent-cyan/20 hover:!bg-accent-cyan/10 !py-2 !px-3 rounded-xl text-accent-cyan transition-colors"
+                                            title="Share Build"
+                                        >
+                                            <FiShare2 size={14} />
                                         </button>
                                         <button
                                             onClick={() => setDeleteId(build._id)}
