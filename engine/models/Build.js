@@ -50,6 +50,7 @@ const buildSchema = new mongoose.Schema({
         horsepower: { type: Number, default: 0 },
         acceleration: { type: Number, default: 0 },
         topSpeed: { type: Number, default: 0 },
+        handling: { type: Number, default: 0 },
     },
     isPublic: {
         type: Boolean,

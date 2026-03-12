@@ -14,23 +14,23 @@ export const modifiers = {
         '#00ffff': { cost: 800 },
     },
     wheels: {
-        stock: { cost: 0, hp: 0, accel: 0, topSpeed: 0, name: 'Stock Alloys' },
-        sport: { cost: 1200, hp: 0, accel: -0.1, topSpeed: 2, name: 'Sport Rims' },
-        track: { cost: 2500, hp: 0, accel: -0.3, topSpeed: 5, name: 'Track Lightweight' },
-        chrome: { cost: 3000, hp: 0, accel: 0.1, topSpeed: -2, name: 'Heavy Chrome' }, // Heavy, reduces perf slightly
-        black: { cost: 1500, hp: 0, accel: -0.1, topSpeed: 2, name: 'Matte Black' },
+        'stock': { cost: 0, hp: 0, accel: 0, topSpeed: 0, handling: 0, name: 'Stock Alloys' },
+        'sport-alloy': { cost: 1200, hp: 0, accel: -0.1, topSpeed: 2, handling: 5, name: 'Sport Alloy' },
+        'racing-mesh': { cost: 2500, hp: 0, accel: -0.3, topSpeed: 5, handling: 15, name: 'Racing Mesh' },
+        'chrome-classic': { cost: 3000, hp: 0, accel: 0.1, topSpeed: -2, handling: -5, name: 'Chrome Classic' },
+        'matte-black': { cost: 1500, hp: 0, accel: -0.1, topSpeed: 2, handling: 5, name: 'Matte Black' },
     },
     spoiler: {
-        none: { cost: 0, hp: 0, accel: 0, topSpeed: 0, name: 'No Spoiler' },
-        lip: { cost: 300, hp: 0, accel: -0.05, topSpeed: -1, name: 'Lip Spoiler' },
-        gt: { cost: 1200, hp: 0, accel: -0.1, topSpeed: -3, name: 'GT Wing' }, // More downforce = better accel but lower top speed
-        carbon: { cost: 2000, hp: 0, accel: -0.15, topSpeed: -3, name: 'Carbon Fiber GT Wing' },
+        'none': { cost: 0, hp: 0, accel: 0, topSpeed: 0, handling: 0, name: 'None' },
+        'lip': { cost: 300, hp: 0, accel: -0.05, topSpeed: -1, handling: 2, name: 'Lip Spoiler' },
+        'gt-wing': { cost: 1200, hp: 0, accel: -0.1, topSpeed: -3, handling: 10, name: 'GT Wing' },
+        'ducktail': { cost: 800, hp: 0, accel: -0.08, topSpeed: -2, handling: 8, name: 'Ducktail' },
     },
     bodyKit: {
-        stock: { cost: 0, hp: 0, accel: 0, topSpeed: 0, name: 'Stock Body' },
-        street: { cost: 1500, hp: 0, accel: 0, topSpeed: -2, name: 'Street Kit' },
-        widebody: { cost: 4500, hp: 0, accel: -0.1, topSpeed: -5, name: 'Widebody Kit' },
-        carbon: { cost: 8000, hp: 0, accel: -0.2, topSpeed: -4, name: 'Full Carbon Kit' },
+        'stock': { cost: 0, hp: 0, accel: 0, topSpeed: 0, handling: 0, name: 'Stock' },
+        'widebody': { cost: 4500, hp: 0, accel: -0.1, topSpeed: -5, handling: 15, name: 'Widebody' },
+        'aero': { cost: 3000, hp: 0, accel: -0.15, topSpeed: -3, handling: 12, name: 'Aero Kit' },
+        'offroad': { cost: 2500, hp: -10, accel: 0.5, topSpeed: -15, handling: -10, name: 'Off-Road Kit' },
     }
 };
 
@@ -53,25 +53,28 @@ export const calculateTotalCost = (basePrice, mods) => {
     return total;
 };
 
-export const calculatePerformance = (baseHp = 300, baseAccel = 4.5, baseSpeed = 155, mods) => {
+export const calculatePerformance = (baseHp = 300, baseAccel = 4.5, baseSpeed = 155, baseHandling = 50, mods) => {
     let hp = baseHp;
     let accel = baseAccel;
     let topSpeed = baseSpeed;
+    let handling = baseHandling;
 
     const parts = ['wheels', 'spoiler', 'bodyKit'];
     
     parts.forEach(part => {
         const mod = mods[part];
         if (modifiers[part] && modifiers[part][mod]) {
-            hp += modifiers[part][mod].hp;
-            accel += modifiers[part][mod].accel;
-            topSpeed += modifiers[part][mod].topSpeed;
+            hp += modifiers[part][mod].hp || 0;
+            accel += modifiers[part][mod].accel || 0;
+            topSpeed += modifiers[part][mod].topSpeed || 0;
+            handling += modifiers[part][mod].handling || 0;
         }
     });
 
     return { 
         hp: Math.round(hp), 
         accel: Number(accel.toFixed(2)), 
-        topSpeed: Math.round(topSpeed) 
+        topSpeed: Math.round(topSpeed),
+        handling: Math.round(handling)
     };
 };

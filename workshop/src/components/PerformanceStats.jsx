@@ -1,14 +1,15 @@
 import { calculatePerformance } from '../data/modifiers';
 
-const PerformanceStats = ({ baseHp = 300, baseAccel = 4.5, baseSpeed = 155, mods }) => {
+const PerformanceStats = ({ baseHp = 300, baseAccel = 4.5, baseSpeed = 155, baseHandling = 50, mods }) => {
     
-    const current = calculatePerformance(baseHp, baseAccel, baseSpeed, mods);
+    const current = calculatePerformance(baseHp, baseAccel, baseSpeed, baseHandling, mods);
     
     // Calculate max values for progress bars (assuming max realistic values)
     const maxHp = 1500;
     const minAccel = 1.5; // lower is better
     const maxAccelRange = 8.0; // 8.0 is empty bar, 1.5 is full bar
     const maxSpeed = 300;
+    const maxHandling = 100;
 
     const hpPercent = (current.hp / maxHp) * 100;
     
@@ -16,6 +17,7 @@ const PerformanceStats = ({ baseHp = 300, baseAccel = 4.5, baseSpeed = 155, mods
     const accelPercent = Math.max(0, 100 - ((current.accel - minAccel) / (maxAccelRange - minAccel)) * 100);
     
     const speedPercent = (current.topSpeed / maxSpeed) * 100;
+    const handlingPercent = Math.max(0, (current.handling / maxHandling) * 100);
 
     // Determine the diff string
     const renderDiff = (currentVal, baseVal, isLowerBetter = false) => {
@@ -78,7 +80,20 @@ const PerformanceStats = ({ baseHp = 300, baseAccel = 4.5, baseSpeed = 155, mods
                     <div className="w-full bg-dark-900 rounded-full h-1.5 overflow-hidden border border-white/[0.04]">
                         <div className="bg-purple-500 h-1.5 rounded-full transition-all duration-500 ease-out" style={{ width: `${Math.min(speedPercent, 100)}%` }}></div>
                     </div>
+                    {/* Handling */}
+                <div>
+                    <div className="flex justify-between mb-1">
+                        <span className="text-[11px] text-gray-400 font-medium">Handling</span>
+                        <div className="flex items-center">
+                             <span className="text-[12px] font-mono text-white tracking-wide">{current.handling}</span>
+                             {renderDiff(current.handling, baseHandling)}
+                        </div>
+                    </div>
+                    <div className="w-full bg-dark-900 rounded-full h-1.5 overflow-hidden border border-white/[0.04]">
+                        <div className="bg-green-500 h-1.5 rounded-full transition-all duration-500 ease-out" style={{ width: `${Math.min(handlingPercent, 100)}%` }}></div>
+                    </div>
                 </div>
+            </div>
             </div>
         </div>
     );

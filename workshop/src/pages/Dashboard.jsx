@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { getBuilds, deleteBuild } from '../services/api';
-import { FiEdit2, FiTrash2, FiPlus, FiShare2, FiGlobe, FiLock } from 'react-icons/fi';
+import { getBuilds, deleteBuild, saveNewBuild } from '../services/api';
+import { exportBuildToJSON } from '../utils/exportBuild';
+import { FiEdit2, FiTrash2, FiPlus, FiShare2, FiGlobe, FiLock, FiCopy, FiDownload } from 'react-icons/fi';
 import { IoCarSportOutline } from 'react-icons/io5';
 
 const Dashboard = () => {
@@ -49,6 +50,27 @@ const Dashboard = () => {
         navigator.clipboard.writeText(url);
         // Could add a toast notification here
         alert('Build link copied to clipboard!');
+    };
+
+    const handleDuplicate = async (build) => {
+        try {
+            const copy = {
+                car: build.car._id,
+                name: `${build.name} (Copy)`,
+                modifications: build.modifications,
+                totalCost: build.totalCost,
+                performance: build.performance,
+                isPublic: false
+            };
+            await saveNewBuild(copy);
+            fetchBuilds(); // Refresh list to show new build
+        } catch (error) {
+            console.error('Error duplicating build:', error);
+        }
+    };
+
+    const handleExport = (build) => {
+        exportBuildToJSON(build);
     };
 
     return (
@@ -141,12 +163,26 @@ const Dashboard = () => {
                                     </div>
 
                                     {/* Actions */}
-                                    <div className="flex gap-2">
+                                    <div className="flex flex-wrap gap-2">
                                         <button
-                                            onClick={() => navigate(`/customize/${build.car?._id}`)}
-                                            className="flex-1 btn-secondary !py-2 text-xs flex items-center justify-center gap-1.5"
+                                            onClick={() => navigate(`/customize/${build.car?._id}?edit=${build._id}`)}
+                                            className="flex-1 btn-secondary !py-2 text-xs flex items-center justify-center gap-1.5 min-w-[30%]"
                                         >
                                             <FiEdit2 size={12} /> Edit
+                                        </button>
+                                        <button
+                                            onClick={() => handleDuplicate(build)}
+                                            className="glass !border-white/10 hover:!bg-white/10 !py-2 !px-3 rounded-xl text-gray-400 hover:text-white transition-colors"
+                                            title="Duplicate Build"
+                                        >
+                                            <FiCopy size={14} />
+                                        </button>
+                                        <button
+                                            onClick={() => handleExport(build)}
+                                            className="glass !border-white/10 hover:!bg-white/10 !py-2 !px-3 rounded-xl text-gray-400 hover:text-white transition-colors"
+                                            title="Export Build"
+                                        >
+                                            <FiDownload size={14} />
                                         </button>
                                         <button
                                             onClick={() => handleShare(build._id)}

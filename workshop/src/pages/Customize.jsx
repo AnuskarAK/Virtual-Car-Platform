@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { getCarById, saveNewBuild } from '../services/api';
+import { getCarById, saveNewBuild, getBuildById, updateBuild } from '../services/api';
 import ThreeDViewer from '../components/ThreeDViewer';
 import ColorPicker from '../components/ColorPicker';
 import PartSelector from '../components/PartSelector';
@@ -9,23 +9,30 @@ import ComparisonView from '../components/ComparisonView';
 import CostCalculator from '../components/CostCalculator';
 import PerformanceStats from '../components/PerformanceStats';
 import AIAssistant from '../components/AIAssistant';
+import BudgetGenerator from '../components/BudgetGenerator';
+import TestDriveSimulator from '../components/TestDriveSimulator';
+import ARViewer from '../components/ARViewer';
 import { IoColorPaletteOutline, IoSettingsOutline, IoSaveOutline, IoRefreshOutline, IoGitCompareOutline, IoDownloadOutline } from 'react-icons/io5';
 import { FiChevronLeft } from 'react-icons/fi';
-import { GiCarWheel, GiSpeedometer } from 'react-icons/gi';
+import { GiCarWheel, GiSpeedometer, GiSteeringWheel } from 'react-icons/gi';
 
 const Customize = () => {
     const { id } = useParams();
     const { user } = useAuth();
     const navigate = useNavigate();
+    const { search } = useLocation();
+    const editId = new URLSearchParams(search).get('edit');
     const [car, setCar] = useState(null);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState('paint');
     const [showComparison, setShowComparison] = useState(false);
     const [showSaveModal, setShowSaveModal] = useState(false);
+    const [showTestDrive, setShowTestDrive] = useState(false);
     const [buildName, setBuildName] = useState('');
     const [saving, setSaving] = useState(false);
     const [saveSuccess, setSaveSuccess] = useState(false);
     const [isPublic, setIsPublic] = useState(false);
+    const [showAR, setShowAR] = useState(false);
 
     const [mods, setMods] = useState({
         paintColor: '#808080',
@@ -35,19 +42,27 @@ const Customize = () => {
     });
 
     useEffect(() => {
-        const fetchCar = async () => {
+        const fetchCarAndBuild = async () => {
             try {
                 const res = await getCarById(id);
                 setCar(res.data);
-                setMods(prev => ({ ...prev, paintColor: res.data.defaultColor }));
+                
+                if (editId) {
+                    const buildRes = await getBuildById(editId);
+                    setMods(buildRes.data.modifications);
+                    setBuildName(buildRes.data.name);
+                    setIsPublic(buildRes.data.isPublic);
+                } else {
+                    setMods(prev => ({ ...prev, paintColor: res.data.defaultColor }));
+                }
             } catch (error) {
-                console.error('Error fetching car:', error);
+                console.error('Error fetching data:', error);
                 navigate('/cars');
             }
             setLoading(false);
         };
-        fetchCar();
-    }, [id, navigate]);
+        fetchCarAndBuild();
+    }, [id, editId, navigate]);
 
     const handleReset = () => {
         if (car) {
@@ -76,16 +91,23 @@ const Customize = () => {
             // Compute current cost and performance for saving into backend
             const { calculateTotalCost, calculatePerformance } = await import('../data/modifiers');
             const totalCost = calculateTotalCost(car?.basePrice || 30000, mods);
-            const performance = calculatePerformance(car?.baseHorsepower, car?.baseAcceleration, car?.baseTopSpeed, mods);
+            const performance = calculatePerformance(car?.baseHorsepower, car?.baseAcceleration, car?.baseTopSpeed, car?.baseHandling, mods);
 
-            await saveNewBuild({
+            const payload = {
                 car: id,
                 name: buildName,
                 modifications: mods,
                 totalCost,
                 performance,
                 isPublic,
-            });
+            };
+
+            if (editId) {
+                await updateBuild(editId, payload);
+            } else {
+                await saveNewBuild(payload);
+            }
+            
             setSaveSuccess(true);
             setTimeout(() => {
                 setShowSaveModal(false);
@@ -252,6 +274,20 @@ const Customize = () => {
                             {/* Action buttons */}
                             <div className="flex flex-wrap items-center justify-center gap-3 mt-6 pt-5 border-t border-white/[0.06]">
                                 <button
+                                    onClick={() => setShowTestDrive(true)}
+                                    className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm text-accent-cyan bg-accent-cyan/10 border border-accent-cyan/20 hover:bg-accent-cyan/20 hover:text-white transition-all font-semibold"
+                                >
+                                    <GiSteeringWheel size={16} /> Test Drive
+                                </button>
+                                {car?.modelUrl && (
+                                    <button
+                                        onClick={() => setShowAR(true)}
+                                        className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm text-purple-400 bg-purple-500/10 border border-purple-500/20 hover:bg-purple-500/20 hover:text-white transition-all font-semibold"
+                                    >
+                                        AR View
+                                    </button>
+                                )}
+                                <button
                                     onClick={handleReset}
                                     className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm text-gray-400 bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.08] hover:text-white transition-all"
                                 >
@@ -311,13 +347,15 @@ const Customize = () => {
                                 baseHp={car?.baseHorsepower || 300} 
                                 baseAccel={car?.baseAcceleration || 4.5} 
                                 baseSpeed={car?.baseTopSpeed || 155} 
+                                baseHandling={car?.baseHandling || 50}
                                 mods={mods} 
                             />
                         </div>
                         
-                        {/* AI Assistant */}
-                        <div className="mt-4">
+                        {/* AI Assistant & Budget Generator */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                             <AIAssistant onApplySuggestions={handleApplyAISuggestions} />
+                            <BudgetGenerator car={car} currentMods={mods} onApplyBuild={(newMods) => setMods(newMods)} />
                         </div>
                     </div>
                 </div>
@@ -391,6 +429,23 @@ const Customize = () => {
                         )}
                     </div>
                 </div>
+            )}
+
+            {/* Test Drive Modal */}
+            {showTestDrive && (
+                <TestDriveSimulator 
+                    car={car} 
+                    mods={mods} 
+                    onClose={() => setShowTestDrive(false)} 
+                />
+            )}
+
+            {/* AR Modal */}
+            {showAR && (
+                <ARViewer 
+                    modelUrl={car?.modelUrl} 
+                    onClose={() => setShowAR(false)} 
+                />
             )}
         </div>
     );

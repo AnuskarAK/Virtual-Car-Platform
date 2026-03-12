@@ -42,6 +42,10 @@ const carSchema = new mongoose.Schema({
         type: Number,
         default: 155,
     },
+    baseHandling: {
+        type: Number,
+        default: 50,
+    },
     availableColors: [{
         name: String,
         hex: String,

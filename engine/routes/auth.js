@@ -68,4 +68,33 @@ router.get('/me', protect, async (req, res) => {
     res.json(req.user);
 });
 
+// @route   POST /api/auth/follow/:id
+// @desc    Follow/Unfollow user
+router.post('/follow/:id', protect, async (req, res) => {
+    try {
+        const userToFollow = await User.findById(req.params.id);
+        const currentUser = await User.findById(req.user._id);
+
+        if (!userToFollow) return res.status(404).json({ message: 'User not found' });
+        if (req.user._id.toString() === req.params.id) return res.status(400).json({ message: "You cannot follow yourself" });
+
+        const isFollowing = currentUser.following.includes(req.params.id);
+
+        if (isFollowing) {
+            currentUser.following = currentUser.following.filter(id => id.toString() !== req.params.id);
+            userToFollow.followers = userToFollow.followers.filter(id => id.toString() !== req.user._id.toString());
+        } else {
+            currentUser.following.push(req.params.id);
+            userToFollow.followers.push(req.user._id);
+        }
+
+        await currentUser.save();
+        await userToFollow.save();
+
+        res.json({ following: currentUser.following });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 module.exports = router;

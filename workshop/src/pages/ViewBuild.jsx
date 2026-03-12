@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { getBuildById, likeBuild, commentBuild } from '../services/api';
+import { getBuildById, likeBuild, commentBuild, followUser } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import ThreeDViewer from '../components/ThreeDViewer';
 import CostCalculator from '../components/CostCalculator';
@@ -15,12 +15,16 @@ const ViewBuild = () => {
     const [error, setError] = useState('');
     const [commentText, setCommentText] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isFollowing, setIsFollowing] = useState(false);
 
     useEffect(() => {
         const fetchBuild = async () => {
             try {
                 const res = await getBuildById(id);
                 setBuild(res.data);
+                if (user && user.following && res.data.user) {
+                    setIsFollowing(user.following.includes(res.data.user._id));
+                }
             } catch (err) {
                 console.error(err);
                 setError('Build not found or is private.');
@@ -35,6 +39,16 @@ const ViewBuild = () => {
         try {
             const res = await likeBuild(id);
             setBuild({ ...build, likes: res.data });
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    const handleFollow = async () => {
+        if (!user) return alert('Please login to follow users');
+        try {
+            const res = await followUser(build.user._id);
+            setIsFollowing(res.data.following.includes(build.user._id));
         } catch (err) {
             console.error(err);
         }
@@ -95,7 +109,21 @@ const ViewBuild = () => {
                             <h1 className="font-heading text-2xl font-bold text-white leading-tight flex items-center gap-3">
                                 {build.name}
                             </h1>
-                            <p className="text-xs text-gray-400 mt-1">Built by {build.user?.name || 'Unknown'}</p>
+                            <div className="flex items-center gap-3 mt-1">
+                                <p className="text-xs text-gray-400">Built by {build.user?.name || 'Unknown'}</p>
+                                {user && build.user && user._id !== build.user._id && (
+                                    <button 
+                                        onClick={handleFollow}
+                                        className={`text-[10px] px-2.5 py-1 rounded-full border transition-colors ${
+                                            isFollowing 
+                                            ? 'bg-white/[0.1] border-white/[0.2] text-white hover:bg-white/[0.15]' 
+                                            : 'bg-accent-blue/10 border-accent-blue/30 text-accent-blue hover:bg-accent-blue/20'
+                                        }`}
+                                    >
+                                        {isFollowing ? 'Following' : 'Follow'}
+                                    </button>
+                                )}
+                            </div>
                         </div>
                     </div>
                     <div className="flex items-center gap-3">
