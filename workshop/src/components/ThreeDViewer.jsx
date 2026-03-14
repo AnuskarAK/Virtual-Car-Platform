@@ -1,8 +1,32 @@
-import { Suspense, useRef, useEffect, useState } from 'react';
+import React, { Suspense, useRef, useEffect, useState } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls, Environment, ContactShadows, useGLTF, MeshReflectorMaterial } from '@react-three/drei';
 import { EffectComposer, Bloom, Vignette, N8AO } from '@react-three/postprocessing';
 import * as THREE from 'three';
+
+// Error Boundary to catch 3D model loading errors
+class ModelErrorBoundary extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { hasError: false };
+    }
+
+    static getDerivedStateFromError(error) {
+        return { hasError: true };
+    }
+
+    componentDidCatch(error, errorInfo) {
+        console.warn("3D Model failed to load. Falling back to default box model.");
+        console.warn(error);
+    }
+
+    render() {
+        if (this.state.hasError) {
+            return this.props.fallback;
+        }
+        return this.props.children;
+    }
+}
 
 // A simple fallback box model if no real 3D model is provided or while loading
 export const FallbackModel = ({ color, wheels, spoiler, bodyKit }) => {
@@ -247,13 +271,22 @@ const ThreeDViewer = ({ modelUrl, paintColor, wheelType, spoilerType, bodyKitTyp
                     <CaptureCanvas setCaptureFn={setCaptureFn} />
                     
                     {modelUrl ? (
-                         <CarModel 
-                            url={modelUrl} 
-                            color={paintColor} 
-                            wheels={wheelType} 
-                            spoiler={spoilerType} 
-                            bodyKit={bodyKitType} 
-                        />
+                        <ModelErrorBoundary fallback={
+                            <FallbackModel 
+                                color={paintColor} 
+                                wheels={wheelType} 
+                                spoiler={spoilerType} 
+                                bodyKit={bodyKitType} 
+                            />
+                        }>
+                             <CarModel 
+                                url={modelUrl} 
+                                color={paintColor} 
+                                wheels={wheelType} 
+                                spoiler={spoilerType} 
+                                bodyKit={bodyKitType} 
+                            />
+                        </ModelErrorBoundary>
                     ) : (
                         <FallbackModel 
                             color={paintColor} 
