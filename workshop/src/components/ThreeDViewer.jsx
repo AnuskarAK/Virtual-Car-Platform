@@ -1,6 +1,6 @@
 import { Suspense, useRef, useEffect, useState } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { OrbitControls, Environment, ContactShadows, useGLTF } from '@react-three/drei';
+import { OrbitControls, Environment, ContactShadows, useGLTF, MeshReflectorMaterial } from '@react-three/drei';
 import { EffectComposer, Bloom, Vignette, N8AO } from '@react-three/postprocessing';
 import * as THREE from 'three';
 
@@ -9,21 +9,23 @@ export const FallbackModel = ({ color, wheels, spoiler, bodyKit }) => {
     // Premium Car Paint Material
     const bodyMaterial = new THREE.MeshPhysicalMaterial({
         color: new THREE.Color(color).convertSRGBToLinear(),
-        metalness: 0.6,
-        roughness: 0.4,
+        metalness: 0.8,
+        roughness: 0.15,
         clearcoat: 1.0,
-        clearcoatRoughness: 0.1,
+        clearcoatRoughness: 0.05,
+        envMapIntensity: 2.0,
     });
 
     // Realistic Glass Material
     const glassMaterial = new THREE.MeshPhysicalMaterial({
         color: new THREE.Color('#ffffff'),
-        metalness: 0.1,
-        roughness: 0.05,
-        transmission: 0.9, // glass-like
+        metalness: 0.0,
+        roughness: 0.0,
+        transmission: 1.0, // glass-like
         ior: 1.5,
         thickness: 0.5,
         transparent: true,
+        envMapIntensity: 2.0,
     });
 
     // Rims Material
@@ -142,10 +144,11 @@ export const CarModel = ({ url, color, wheels, spoiler, bodyKit }) => {
                     // Create a new physical material for realistic paint
                     const newMat = new THREE.MeshPhysicalMaterial({
                         color: new THREE.Color(color).convertSRGBToLinear(),
-                        metalness: 0.6,
-                        roughness: 0.4,
+                        metalness: 0.8,
+                        roughness: 0.1,
                         clearcoat: 1.0,
-                        clearcoatRoughness: 0.1,
+                        clearcoatRoughness: 0.05,
+                        envMapIntensity: 2.5, // amplify reflections
                     });
                     child.material = newMat;
                 }
@@ -154,11 +157,13 @@ export const CarModel = ({ url, color, wheels, spoiler, bodyKit }) => {
                 if (name.includes('glass') || name.includes('window')) {
                     child.material = new THREE.MeshPhysicalMaterial({
                         color: new THREE.Color('#ffffff'),
-                        metalness: 0.1,
+                        metalness: 0.0,
                         roughness: 0,
-                        transmission: 0.95,
+                        transmission: 1.0,
                         ior: 1.5,
+                        thickness: 0.2,
                         transparent: true,
+                        envMapIntensity: 2.0,
                     });
                 }
             }
@@ -226,18 +231,19 @@ const ThreeDViewer = ({ modelUrl, paintColor, wheelType, spoilerType, bodyKitTyp
 
             <Canvas shadows camera={{ position: [5, 2, 6], fov: 40 }} gl={{ preserveDrawingBuffer: true, antialias: false }}>
                 {/* Background color based on environment */}
-                {env === 'studio' && <color attach="background" args={['#1a1f2e']} />}
+                {env === 'studio' && <color attach="background" args={['#111111']} />}
                 {env === 'night' && <color attach="background" args={['#050510']} />}
                 
                 {/* Lighting setup for cinematic feel */}
-                <ambientLight intensity={env === 'night' ? 0.1 : 0.4} />
-                <spotLight position={[0, 15, 0]} angle={0.3} penumbra={1} intensity={2} castShadow shadow-bias={-0.0001} />
+                <ambientLight intensity={env === 'night' ? 0.1 : 0.5} />
+                <spotLight position={[0, 15, 0]} angle={0.4} penumbra={1} intensity={env === 'studio' ? 2 : 1.5} castShadow shadow-bias={-0.0001} />
                 <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1.5} castShadow shadow-bias={-0.0001} />
-                <pointLight position={[-10, 5, -10]} intensity={env === 'night' ? 2 : 0.8} color={env === 'night' ? '#4466ff' : '#ffffff'} />
+                <spotLight position={[-10, 10, -10]} angle={0.2} penumbra={1} intensity={1} color="#ffffff" />
+                <pointLight position={[-10, 5, -10]} intensity={env === 'night' ? 2 : 0} color={env === 'night' ? '#4466ff' : '#ffffff'} />
                 
                 <Suspense fallback={null}>
                     {/* High-quality reflection environment */}
-                    <Environment preset={env} background={env !== 'studio' && env !== 'night'} blur={0.1} />
+                    <Environment preset={env} background={env !== 'studio' && env !== 'night'} blur={env === 'studio' ? 0.4 : 0.1} />
                     <CaptureCanvas setCaptureFn={setCaptureFn} />
                     
                     {modelUrl ? (
@@ -258,7 +264,26 @@ const ThreeDViewer = ({ modelUrl, paintColor, wheelType, spoilerType, bodyKitTyp
                     )}
                     
                     {/* Ultra-realistic contact shadows */}
-                    <ContactShadows resolution={2048} scale={12} blur={2.5} opacity={0.7} far={10} color="#000000" />
+                    <ContactShadows position={[0, -0.2, 0]} resolution={2048} scale={15} blur={1.5} opacity={0.8} far={10} color="#000000" />
+                    
+                    {/* Realistic studio floor reflection */}
+                    {env === 'studio' && (
+                        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.21, 0]}>
+                            <planeGeometry args={[50, 50]} />
+                            <MeshReflectorMaterial
+                                blur={[400, 100]}
+                                resolution={1024}
+                                mixBlur={1}
+                                mixStrength={15}
+                                depthScale={1}
+                                minDepthThreshold={0.85}
+                                maxDepthThreshold={1}
+                                color="#151515"
+                                metalness={0.6}
+                                roughness={1}
+                            />
+                        </mesh>
+                    )}
                 </Suspense>
 
                 {/* Premium fluid interaction */}

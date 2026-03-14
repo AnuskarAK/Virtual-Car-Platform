@@ -22,6 +22,10 @@ const carSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    modelUrl: {
+        type: String,
+        default: '',
+    },
     defaultColor: {
         type: String,
         default: '#808080',
