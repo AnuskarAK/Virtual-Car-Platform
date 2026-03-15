@@ -259,15 +259,15 @@ const ThreeDViewer = ({ modelUrl, paintColor, wheelType, spoilerType, bodyKitTyp
                 {env === 'night' && <color attach="background" args={['#050510']} />}
                 
                 {/* Lighting setup for cinematic feel */}
-                <ambientLight intensity={env === 'night' ? 0.1 : 0.5} />
-                <spotLight position={[0, 15, 0]} angle={0.4} penumbra={1} intensity={env === 'studio' ? 2 : 1.5} castShadow shadow-bias={-0.0001} />
+                <ambientLight intensity={env === 'night' ? 0.1 : env === 'studio' ? 0.15 : 0.5} />
+                <spotLight position={[0, 15, 0]} angle={0.4} penumbra={1} intensity={env === 'studio' ? 2.5 : 1.5} castShadow shadow-bias={-0.0001} />
                 <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1.5} castShadow shadow-bias={-0.0001} />
                 <spotLight position={[-10, 10, -10]} angle={0.2} penumbra={1} intensity={1} color="#ffffff" />
                 <pointLight position={[-10, 5, -10]} intensity={env === 'night' ? 2 : 0} color={env === 'night' ? '#4466ff' : '#ffffff'} />
                 
                 <Suspense fallback={null}>
                     {/* High-quality reflection environment */}
-                    <Environment preset={env} background={env !== 'studio' && env !== 'night'} blur={env === 'studio' ? 0.4 : 0.1} />
+                    <Environment preset={env} background={env !== 'studio' && env !== 'night'} blur={env === 'studio' ? 0 : 0.1} />
                     <CaptureCanvas setCaptureFn={setCaptureFn} />
                     
                     {modelUrl ? (
@@ -305,15 +305,15 @@ const ThreeDViewer = ({ modelUrl, paintColor, wheelType, spoilerType, bodyKitTyp
                             <planeGeometry args={[50, 50]} />
                             <MeshReflectorMaterial
                                 blur={[400, 100]}
-                                resolution={1024}
+                                resolution={2048}
                                 mixBlur={1}
-                                mixStrength={15}
-                                depthScale={1}
-                                minDepthThreshold={0.85}
-                                maxDepthThreshold={1}
+                                mixStrength={40}
+                                depthScale={1.2}
+                                minDepthThreshold={0.4}
+                                maxDepthThreshold={1.4}
                                 color="#151515"
-                                metalness={0.6}
-                                roughness={1}
+                                metalness={0.8}
+                                roughness={0.1}
                             />
                         </mesh>
                     )}
